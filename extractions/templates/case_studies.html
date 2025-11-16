@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Case Studies</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* ===== Global Styles ===== */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: skyblue;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      padding: 30px 40px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== Header ===== */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #1a237e;
+      margin: 0;
+    }
+
+    .add-btn {
+      background: linear-gradient(135deg, #007bff, #0056d1);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .add-btn:hover {
+      background: linear-gradient(135deg, #0056d1, #0041a8);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 86, 209, 0.3);
+    }
+
+    /* ===== Search Bar ===== */
+    .search-bar {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .search-bar input {
+      width: 250px;
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .search-bar input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+      outline: none;
+    }
+
+    /* ===== Table Styles ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    thead {
+      background: #007bff;
+      color: white;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 15px;
+    }
+
+    th {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #eee;
+      transition: background 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: #f3f6ff;
+    }
+
+    td {
+      vertical-align: top;
+      color: #333;
+      word-wrap: break-word;
+    }
+
+    /* ===== Action Icons ===== */
+    .actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      transition: transform 0.2s ease;
+    }
+
+    .icon-btn.edit {
+      color: #28a745;
+    }
+
+    .icon-btn.delete {
+      color: #dc3545;
+    }
+
+    .icon-btn:hover {
+      transform: scale(1.2);
+    }
+
+    /* ===== Empty Message ===== */
+    .empty {
+      text-align: center;
+      color: #888;
+      font-size: 15px;
+      padding: 20px 0;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      text-align: center;
+      color: #666;
+      margin-top: 30px;
+      font-size: 13px;
+    }
+
+    /* ===== Responsive Design ===== */
+    @media (max-width: 768px) {
+      body {
+        padding: 20px;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tbody tr {
+        margin-bottom: 20px;
+        background: #f9faff;
+        border-radius: 10px;
+        padding: 15px;
+      }
+
+      td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+      }
+
+      td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #1a237e;
+      }
+
+      .actions {
+        justify-content: flex-end;
+      }
+
+      .search-bar input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🩺 Patient Case Studies</h1>
+      <a href="{% url 'add_case_study' %}" class="add-btn"><i class='bx bx-plus-circle'></i> Add Case Study</a>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍 Search by patient name...">
+    </div>
+
+    <table id="caseTable">
+      <thead>
+        <tr>
+          <th>Patient Name</th>
+          <th>Diagnosis</th>
+          <th>Treatment</th>
+          <th>Outcome</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for case in case_studies %}
+        <tr>
+          <td data-label="Patient Name">{{ case.patient_name }}</td>
+          <td data-label="Diagnosis">{{ case.diagnosis }}</td>
+          <td data-label="Treatment">{{ case.treatment }}</td>
+          <td data-label="Outcome">{{ case.outcome }}</td>
+          <td data-label="Actions">
+            <div class="actions">
+              <a href="{% url 'edit_case_study' case.id %}">
+                <button class="icon-btn edit" title="Edit"><i class='bx bxs-edit'></i></button>
+              </a>
+              <a href="{% url 'delete_case_study' case.id %}" onclick="return confirm('Are you sure you want to delete this case study?');">
+                <button class="icon-btn delete" title="Delete"><i class='bx bxs-trash'></i></button>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="empty">No case studies added yet.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <footer>
+      © 2025 Health Management System 
+    </footer>
+  </div>
+
+  <script>
+    // Search filter functionality
+    const searchInput = document.getElementById('searchInput');
+    const table = document.getElementById('caseTable');
+    searchInput.addEventListener('keyup', function() {
+      const filter = this.value.toLowerCase();
+      const rows = table.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        const name = row.querySelector('td').textContent.toLowerCase();
+        row.style.display = name.includes(filter) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Account</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #6fb1fc, #4364f7, #002dff);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+    }
+    .register-container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      width: 380px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1.5px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #4364f7, #6fb1fc);
+      border: none;
+      color: white;
+      font-size: 17px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #2c50e0, #5ea9ff);
+    }
+    .error, .success {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .error { color: #e74c3c; }
+    .success { color: #27ae60; }
+    a {
+      display: inline-block;
+      margin-top: 15px;
+      text-decoration: none;
+      color: #4364f7;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Create Account</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <p class="{{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="">
+      {% csrf_token %}
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password1" placeholder="Password" required>
+      <input type="password" name="password2" placeholder="Confirm Password" required>
+      <button type="submit">Create Account</button>
+    </form>
+
+    <a href="{% url 'login' %}">Already have an account? Log in</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Doctor Schedule</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {
+  background: linear-gradient(135deg, #e9f1ff, #f5f9ff);
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 20px 10px;
+}
+
+/* Container */
+.container {
+  margin-top: 40px;
+  max-width: 600px;
+}
+
+/* Card UI */
+.card {
+  border-radius: 16px;
+  padding: 28px !important;
+  border: 1px solid #d9e4ff;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 40, 120, 0.08);
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0, 60, 150, 0.12);
+}
+
+/* Title */
+h3 {
+  font-weight: 700;
+  color: #173b87;
+  letter-spacing: 0.5px;
+  font-size: 24px;
+}
+
+/* Labels */
+.form-label {
+  font-weight: 600;
+  color: #1b2d55;
+  margin-bottom: 6px;
+}
+
+/* Inputs & Select */
+.form-control,
+.form-select {
+  border-radius: 10px;
+  padding: 10px 14px;
+  border: 1px solid #c7d6f3;
+  background: #f8faff;
+  transition: 0.25s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #4a82ff;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(74, 130, 255, 0.2);
+}
+
+/* Buttons */
+.btn-primary {
+  background: #2e63ff;
+  border-radius: 10px;
+  border: none;
+  padding: 10px 22px;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.btn-primary:hover {
+  background: #1d4ad6;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: #6c757d;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-weight: 600;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .container {
+    margin-top: 20px;
+    padding: 0 10px;
+  }
+
+  .card {
+    padding: 20px !important;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 48%;
+    padding: 10px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card p-4">
+    <h3 class="mb-3 text-center">Add Doctor Schedule</h3>
+
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Doctor Name</label>
+        <input type="text" name="doctor_name" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Weekday</label>
+        <select name="weekday" class="form-select" required>
+          <option value="">Select Weekday</option>
+          <option>Monday</option>
+          <option>Tuesday</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+          <option>Saturday</option>
+          <option>Sunday</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Visiting Time</label>
+        <input type="text" name="visiting_time" class="form-control" placeholder="e.g. 10:00 AM - 2:00 PM">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Status</label>
+        <select name="status" class="form-select" required>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <a href="{% url 'doctor_schedule' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Add Schedule</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

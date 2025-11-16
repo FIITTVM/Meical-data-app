@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- IMPORTANT -->
+<title>Appointments Dashboard</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+/* ========== Base ========== */
+* { box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  background: skyblue;
+  color: #333;
+}
+header {
+  background: linear-gradient(135deg, #4285f4, #6ea8fe);
+  color: #fff;
+  padding: 25px 0;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+header h1 { margin: 0; font-size: 28px; letter-spacing: 1px; }
+
+nav {
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  flex-wrap: wrap;
+}
+nav a {
+  text-decoration: none;
+  color: #4285f4;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+nav a:hover { background: #4285f4; color: #fff; }
+
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+/* Form + controls */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+input[type="text"] {
+  flex: 1;
+  min-width: 250px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+input[type="text"]:focus { outline: none; border-color: #4285f4; }
+button {
+  padding: 10px 18px;
+  background: #4285f4;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover { background: #357ae8; }
+
+a.add-btn {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 16px;
+  background: #28a745;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* ========== Desktop table ========== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+}
+thead th {
+  background: #4285f4;
+  color: #fff;
+  font-weight: 600;
+  padding: 12px 15px;
+  text-align: left;
+}
+tbody td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e6e6e6;
+}
+tr:nth-child(even) { background: #f9fbff; }
+tr:hover { background: #f1f7ff; }
+
+a.edit-btn, a.delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 7px 13px;
+  border-radius: 6px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+a.edit-btn { background: #ff9800; margin-right: 10px; }
+a.edit-btn:hover { background: #e68900; }
+a.delete-btn { background: #dc3545; }
+a.delete-btn:hover { background: #b02a37; }
+
+/* ========== Mobile (≤600px) vertical cards ========== */
+@media (max-width: 600px) {
+  /* Header + nav adapt */
+  header { padding: 18px 0; }
+  header h1 { font-size: 22px; }
+  nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+  }
+  nav a {
+    width: 90%;
+    text-align: center;
+    border: 1px solid #4285f4;
+    padding: 8px 12px;
+  }
+
+  .container {
+    width: 95%;
+    margin: 15px auto;
+    padding: 18px;
+  }
+
+  form { flex-direction: column; gap: 10px; }
+  input[type="text"], button, .add-btn {
+    width: 100%;
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  /* Turn table into vertical cards */
+  table thead { display: none; }
+  table, tbody, tr, td { display: block; width: 100%; }
+  tr {
+    margin-bottom: 12px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  td {
+    text-align: left !important;
+    padding: 10px 8px;
+    border: none;
+    position: relative;
+  }
+  td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #4285f4;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+
+  /* Actions stacked vertically */
+  td[data-label="Actions"] {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-top: 12px;
+  }
+  .edit-btn, .delete-btn { padding: 8px 14px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Appointments Dashboard</h1>
+</header>
+
+<nav>
+  <a href="{% url 'dashboard' %}">Home</a>
+  <a href="{% url 'add_appointment' %}">Add Appointment</a>
+  <a href="{% url 'add_patient' %}">Add Patient</a>
+  <a href="#">Reports</a>
+  <a href="/admin/logout/">Logout</a>
+</nav>
+
+<div class="container">
+  <form method="GET">
+    <input type="text" name="search" placeholder="Search by patient name..." value="{{ search_query|default:'' }}">
+    <button type="submit">Search</button>
+  </form>
+
+  <a href="{% url 'add_appointment' %}" class="add-btn">+ Add New Appointment</a>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Patient</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Doctor</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for app in appointments %}
+      <tr>
+        <td data-label="ID">{{ app.appointment_id }}</td>
+        <td data-label="Patient">{{ app.patient.name }}</td>
+        <td data-label="Date">{{ app.date }}</td>
+        <td data-label="Time">{{ app.time }}</td>
+        <td data-label="Doctor">{{ app.doctor }}</td>
+        <td data-label="Reason">{{ app.reason }}</td>
+        <td data-label="Status">{{ app.status }}</td>
+        <td data-label="Actions">
+          <a href="{% url 'edit_appointment' app.appointment_id %}" class="edit-btn">
+            <i class='bx bx-edit'></i>
+          </a>
+          <a href="{% url 'delete_appointment' app.appointment_id %}" class="delete-btn"
+             onclick="return confirm('Delete this appointment?');">
+            <i class='bx bx-trash'></i>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

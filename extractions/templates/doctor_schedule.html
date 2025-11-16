@@ -1,0 +1,276 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Schedule Management</title>
+
+<!-- Bootstrap + Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+<style>
+body {
+  background: skyblue;
+  font-family: "Poppins", sans-serif;
+  padding: 10px;
+}
+
+/* Main Container */
+.container {
+  margin-top: 40px;
+}
+
+/* Professional Table Card */
+.table-container {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  border: 1px solid #dce6ff;
+  box-shadow: 0 10px 35px rgba(0, 40, 100, 0.08);
+  animation: fadeIn 0.4s ease;
+  transition: 0.3s ease;
+}
+
+.table-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0, 45, 130, 0.12);
+}
+
+/* Title */
+h2 {
+  font-weight: 700;
+  color: #213a73;
+  letter-spacing: 0.5px;
+  margin-bottom: 18px;
+}
+
+/* Add Button */
+.btn-success {
+  padding: 10px 18px;
+  border-radius: 10px !important;
+  font-weight: 600;
+  background: #1aa06d !important;
+  border: none;
+  box-shadow: 0px 6px 15px rgba(0, 170, 100, 0.25);
+}
+.btn-success:hover {
+  background: #148c5d !important;
+  transform: translateY(-2px);
+}
+
+/* Search Bar */
+.search-bar input {
+  width: 260px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #bcd2ff;
+  background: #f8faff;
+  transition: 0.25s ease;
+  margin-bottom: 35px;   /* increased space */
+  display: flex;
+  justify-content: flex-end;
+  font-size: 14px;
+}
+.search-bar input:focus {
+  border-color: #3e74ff;
+  box-shadow: 0 0 0 4px rgba(62, 116, 255, 0.2);
+}
+
+/* Table Header */
+.table th {
+   background: linear-gradient(135deg, #4a90e2, #007bff);
+  color: #ffffff;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 14px;
+  font-size: 14px;
+}
+
+/* Table Body */
+.table td {
+  text-align: center;
+  padding: 12px;
+  font-size: 14px;
+  background: #ffffff;
+}
+
+/* Badges */
+.badge {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85em;
+}
+
+/* Action Icons */
+.icon-btn {
+  border: none;
+  background: none;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin: 0 5px;
+}
+
+.icon-btn.edit { color: #1d5cff; }
+.icon-btn.delete { color: #e63946; }
+
+.icon-btn:hover {
+  transform: scale(1.25);
+}
+
+/* Fade in Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------
+   📱 MOBILE RESPONSIVE DESIGN
+--------------------------------*/
+@media (max-width: 768px) {
+
+  h2 {
+    text-align: center;
+    font-size: 22px;
+  }
+
+  .search-bar input {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  /* Remove main table header */
+  .table thead { display: none; }
+
+  /* Stack rows as cards */
+  .table, .table tbody, .table tr, .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table tr {
+    margin-bottom: 18px;
+    border: 1px solid #d0dcff;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 12px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.05);
+  }
+
+  .table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 6px;
+    border: none;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #213a73;
+    margin-right: 10px;
+  }
+
+  /* Make action icons centered */
+  td[data-label="Actions"] {
+    justify-content: center !important;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="table-container">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+      <h2>Doctor Schedule</h2>
+      <a href="{% url 'add_doctor_schedule' %}" class="btn btn-success">
+        <i class='bx bx-plus-circle'></i> Add Schedule
+      </a>
+    </div>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍 Search by doctor name or weekday...">
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle" id="scheduleTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Doctor Name</th>
+            <th>Weekday</th>
+            <th>Visiting Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for schedule in schedules %}
+          <tr>
+            <td data-label="ID">{{ schedule.id }}</td>
+            <td data-label="Doctor Name">{{ schedule.doctor_name }}</td>
+            <td data-label="Weekday">{{ schedule.weekday }}</td>
+            <td data-label="Visiting Time">{{ schedule.visiting_time }}</td>
+            <td data-label="Status">
+              {% if schedule.status == "Active" %}
+                <span class="badge bg-success">Active</span>
+              {% else %}
+                <span class="badge bg-secondary">Inactive</span>
+              {% endif %}
+            </td>
+            <td data-label="Actions">
+              <a href="{% url 'edit_doctor_schedule' schedule.id %}" title="Edit">
+                <button class="icon-btn edit"><i class='bx bxs-edit'></i></button>
+              </a>
+              <a href="{% url 'delete_doctor_schedule' schedule.id %}" onclick="return confirm('Are you sure?')" title="Delete">
+                <button class="icon-btn delete"><i class='bx bxs-trash'></i></button>
+              </a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="text-center text-muted">No schedules found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Search functionality
+  document.getElementById('searchInput').addEventListener('keyup', function() {
+    const filter = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#scheduleTable tbody tr');
+    rows.forEach(row => {
+      const name = row.querySelector('td[data-label="Doctor Name"]').textContent.toLowerCase();
+      const weekday = row.querySelector('td[data-label="Weekday"]').textContent.toLowerCase();
+      if (name.includes(filter) || weekday.includes(filter)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

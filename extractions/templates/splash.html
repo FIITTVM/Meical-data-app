@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #cce7ff, #e6f2ff); /* 🌤️ Mild sky blue */
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
+
+    .splash-container {
+      text-align: center;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .logo {
+      width: 500px;   /* 🌟 Large size */
+      height: auto;
+      object-fit: contain; /* Keeps image proportion */
+      animation: popIn 1.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="splash-container" id="splash">
+    <!-- ✅ Corrected image path (only one .png) -->
+    <img src="{% static 'images/logo.png.png' %}" alt="Hospital Logo" class="logo">
+  </div>
+
+  <script>
+    // ✅ Redirect to login after 2 seconds
+    setTimeout(() => {
+      window.location.href = "{% url 'login' %}";
+    }, 4000);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Prescription</title>
+<style>
+body { font-family: "Segoe UI"; background: #eef3fc; padding: 30px; }
+.container {
+  background: white; padding: 25px; border-radius: 12px; max-width: 600px; margin: auto;
+}
+input, textarea {
+  width: 100%; padding: 8px; margin: 6px 0; border-radius: 6px; border: 1px solid #ccc;
+}
+button {
+  background: #3366cc; color: white; padding: 10px 16px; border: none; border-radius: 8px;
+}
+button:hover { background: #264b9a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Edit Prescription</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label>Patient Name</label>
+    <input type="text" name="patient_name" value="{{ prescription.patient_name }}" required>
+
+    <label>Doctor Name</label>
+    <input type="text" name="doctor_name" value="{{ prescription.doctor_name }}" required>
+
+    <label>Diagnosis</label>
+    <textarea name="diagnosis" required>{{ prescription.diagnosis }}</textarea>
+
+    <label>Medicines</label>
+    <textarea name="medicines" required>{{ prescription.medicines }}</textarea>
+
+    <label>Dosage</label>
+    <textarea name="dosage" required>{{ prescription.dosage }}</textarea>
+
+    <label>Remarks</label>
+    <textarea name="remarks">{{ prescription.remarks }}</textarea>
+
+    <button type="submit">Update Prescription</button>
+  </form>
+</div>
+</body>
+</html>

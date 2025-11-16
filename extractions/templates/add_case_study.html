@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Case Study</title>
+
+  <style>
+   body {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #e8f1ff, #f5f9ff);
+      margin: 0;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    /* Page Title */
+    h1 {
+      text-align: center;
+      font-size: 26px;
+      color: #0a3d91;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    /* Form Container */
+    form {
+      max-width: 500px;
+      width: 100%;
+      margin: auto;
+      background: #fff;
+      padding: 25px 20px;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #d7e3ff;
+      box-sizing: border-box;
+    }
+
+    /* Labels */
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #08306b;
+      font-size: 14.5px;
+    }
+
+    /* Input + Textarea */
+    input,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 6px;
+      border: 1px solid #c8d7f1;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #f7faff;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: none;
+    }
+
+    /* Focus Effect */
+    input:focus,
+    textarea:focus {
+      border-color: #4a8cff;
+      background: #fff;
+      outline: none;
+      box-shadow: 0 0 5px rgba(74, 140, 255, 0.3);
+    }
+
+    /* Submit Button */
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 22px;
+      background: #1f6feb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 80, 200, 0.2);
+    }
+
+    button:hover {
+      background: #0c4bb8;
+    }
+
+    /* ----------------------------------------
+       📱 Mobile View
+    ----------------------------------------- */
+    @media (max-width: 480px) {
+
+      body {
+        padding: 12px;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 22px;
+      }
+
+      form {
+        width: 100%;
+        padding: 26px 20px;
+        border-radius: 14px;
+      }
+
+      label {
+        font-size: 17px;
+      }
+
+      input,
+      textarea {
+        padding: 14px;
+        font-size: 17px;
+      }
+
+      button {
+        padding: 16px;
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Add Case Study</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <label>Patient Name:</label>
+    <input type="text" name="patient_name" required>
+
+    <label>Diagnosis:</label>
+    <textarea name="diagnosis" required></textarea>
+
+    <label>Treatment:</label>
+    <textarea name="treatment" required></textarea>
+
+    <label>Outcome:</label>
+    <textarea name="outcome" required></textarea>
+
+    <button type="submit">💾 Save Case Study</button>
+  </form>
+
+</body>
+</html>

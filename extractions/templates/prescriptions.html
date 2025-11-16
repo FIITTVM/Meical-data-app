@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Medical Prescription Form</title>
+<style>
+/* ===== Global ===== */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #007fae 0%, #66c3d8 100%);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* ===== Header Area ===== */
+.header {
+  background: linear-gradient(135deg, #007fae, #005f88);
+  color: white;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header .left {
+  font-size: 22px;
+  font-weight: bold;
+}
+.header .right {
+  text-align: right;
+  font-size: 14px;
+}
+
+/* ===== Form Card ===== */
+form {
+  background: white;
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+h1 {
+  text-align: center;
+  color: #004d66;
+  font-size: 22px;
+  margin-bottom: 25px;
+}
+
+/* ===== Form Fields ===== */
+label {
+  font-weight: 600;
+  color: #333;
+}
+input, textarea, select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+.row {
+  display: flex;
+  gap: 20px;
+}
+.row > div {
+  flex: 1;
+}
+
+/* ===== Medicines Table ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  border: 1px solid #ccc;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+th {
+  background-color: #eaf7fa;
+  color: #004d66;
+  font-weight: 600;
+}
+.add-row {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.add-row:hover {
+  background-color: #1e7e34;
+}
+
+/* ===== Buttons ===== */
+button {
+  background-color: #007fae;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #005f88;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  color: #444;
+  font-size: 13px;
+  margin-top: 20px;
+}
+.navbar {
+  text-align: center;
+  margin: 15px 0;
+}
+.navbar a button {
+  background-color: #444;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  margin: 5px;
+  cursor: pointer;
+}
+.navbar a button:hover {
+  background-color: #222;
+}
+.form-actions {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.add-row {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  margin-top: 15px;
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.add-row:hover {
+  background-color: #218838;
+}
+
+.save-btn {
+  background-color: #007fae;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.save-btn:hover {
+  background-color: #005f88;
+}
+.disable-table input {
+    background: #f0f0f0;
+    pointer-events: none;   /* disable typing */
+}
+.disable-table button {
+    display: none;          /* hide delete buttons */
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<div class="header">
+  <div class="left">
+    <div>HEALTH CARE</div>
+    <div style="font-size:14px;">Company Name</div>
+  </div>
+  <div class="right">
+    <strong>Ms. GEETHA PRIYA</strong><br>
+    Endocrine Doctor<br>
+    ID No: 123456789
+  </div>
+</div>
+
+<!-- ===== Navigation ===== -->
+<div class="navbar">
+ <a href="{% url 'prescriptions' %}" onclick="newPrescription()">
+    <button type="button">🩺 New Prescription</button>
+</a>
+
+  <a href="{% url 'view_prescriptions' %}"><button>📋 View Old Prescriptions</button></a>
+</div>
+
+<!-- ===== Form ===== -->
+<form id="prescriptionForm" method="POST">
+  {% csrf_token %}
+  <h1>MEDICAL PRESCRIPTION FORM</h1>
+
+  <div class="row">
+    <div>
+      <label>Doctor Name:</label>
+      <input type="text" name="doctor_name" required>
+    </div>
+    <div>
+      <label>Date:</label>
+      <input type="date" name="date" required>
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <label>Patient Name:</label>
+      <input type="text" name="patient_name" required>
+    </div>
+    <div>
+      <label>Age:</label>
+      <input type="number" name="age" required>
+    </div>
+  </div>
+
+  <label>Diagnosis:</label>
+  <textarea name="diagnosis" rows="3" required></textarea>
+
+  <h3 style="color:#004d66;">Rx:</h3>
+
+  <table id="medicineTable">
+    <thead>
+      <tr>
+        <th>Medicine</th>
+        <th>Dosage</th>
+        <th>Frequency</th>
+        <th>Duration</th>
+        <th>Remarks</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" name="medicine_name[]" required></td>
+        <td><input type="text" name="dosage[]" required></td>
+        <td><input type="text" name="frequency[]" required></td>
+        <td><input type="text" name="duration[]" required></td>
+        <td><input type="text" name="remarks[]"></td>
+        <td><button type="button" class="delete-btn" onclick="deleteRow(this)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="form-actions">
+    <button type="button" class="add-row" onclick="addRow()">➕ Add Row</button>
+    <button type="submit" class="save-btn">💾 Save Prescription</button>
+  </div>
+</form>
+
+<div class="footer">
+  <p>Phone: +01 2345 6789 | Email: clinicname@gmail.com | www.yourwebsite.com</p>
+  <p>Address: Lorem Ipsum Street, Dolor, St. Amet 12345</p>
+</div>
+
+{% if success %}
+<p style="text-align:center;color:green;">✔ Prescription saved successfully!</p>
+{% endif %}
+
+<script>
+// ✅ Add new row
+function addRow() {
+  const tbody = document.querySelector("#medicineTable tbody");
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td><input type="text" name="medicine_name[]" required></td>
+    <td><input type="text" name="dosage[]" required></td>
+    <td><input type="text" name="frequency[]" required></td>
+    <td><input type="text" name="duration[]" required></td>
+    <td><input type="text" name="remarks[]"></td>
+    <td><button type="button" class="delete-btn" onclick="deleteRow(this)">Delete</button></td>
+  `;
+  tbody.appendChild(row);
+  saveToLocalStorage();
+}
+
+// ✅ Delete row
+function deleteRow(btn) {
+  btn.closest("tr").remove();
+  saveToLocalStorage();
+}
+
+// ✅ Save ALL rows + fields
+function saveToLocalStorage() {
+  const formData = {};
+
+  // Save normal form fields
+  document.querySelectorAll("#prescriptionForm input:not([name$='[]']), #prescriptionForm textarea")
+    .forEach(el => {
+      formData[el.name] = el.value;
+    });
+
+  // Save table rows as ARRAY data
+  const rows = [];
+  document.querySelectorAll("#medicineTable tbody tr").forEach(tr => {
+    const obj = {
+      medicine: tr.querySelector("input[name='medicine_name[]']").value,
+      dosage: tr.querySelector("input[name='dosage[]']").value,
+      frequency: tr.querySelector("input[name='frequency[]']").value,
+      duration: tr.querySelector("input[name='duration[]']").value,
+      remarks: tr.querySelector("input[name='remarks[]']").value
+    };
+    rows.push(obj);
+  });
+
+  formData["tableRows"] = rows;
+
+  localStorage.setItem("prescriptionFormData", JSON.stringify(formData));
+}
+
+// ✅ Restore data properly
+function restoreFromLocalStorage() {
+  const saved = localStorage.getItem("prescriptionFormData");
+  if (!saved) return;
+
+  const formData = JSON.parse(saved);
+
+  // Restore normal fields
+  Object.keys(formData).forEach(name => {
+    if (name === "tableRows") return;
+    const field = document.querySelector(`[name='${name}']`);
+    if (field) field.value = formData[name];
+  });
+
+  // Restore table rows
+  const tbody = document.querySelector("#medicineTable tbody");
+  tbody.innerHTML = "";
+
+  formData.tableRows.forEach(r => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td><input type="text" name="medicine_name[]" value="${r.medicine}" required></td>
+      <td><input type="text" name="dosage[]" value="${r.dosage}" required></td>
+      <td><input type="text" name="frequency[]" value="${r.frequency}" required></td>
+      <td><input type="text" name="duration[]" value="${r.duration}" required></td>
+      <td><input type="text" name="remarks[]" value="${r.remarks}"></td>
+      <td><button type="button" class="delete-btn" onclick="deleteRow(this)">Delete</button></td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+// 🟦 New Prescription
+function newPrescription() {
+  localStorage.removeItem("prescriptionFormData");
+  document.getElementById("prescriptionForm").reset();
+
+  document.querySelector("#medicineTable tbody").innerHTML = `
+    <tr>
+      <td><input type="text" name="medicine_name[]" required></td>
+      <td><input type="text" name="dosage[]" required></td>
+      <td><input type="text" name="frequency[]" required></td>
+      <td><input type="text" name="duration[]" required></td>
+      <td><input type="text" name="remarks[]"></td>
+      <td><button type="button" class="delete-btn" onclick="deleteRow(this)">Delete</button></td>
+    </tr>
+  `;
+}
+
+// 🟦 On Load
+window.onload = () => {
+  restoreFromLocalStorage();
+
+  // Save automatically when typing
+  document.querySelectorAll("input, textarea").forEach(el => {
+    el.addEventListener("input", saveToLocalStorage);
+  });
+};
+</script>
+
+</body>
+</html>

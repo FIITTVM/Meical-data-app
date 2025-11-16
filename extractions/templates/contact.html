@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | LifeSpring Hospital</title>
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #f4f7fb;
+      color: #333;
+    }
+
+    header {
+      background:  #10857f;
+      color: white;
+      text-align: center;
+      padding: 25px 0;
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+
+    .contact-container {
+      max-width: 1000px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+      display: flex;
+      flex-wrap: wrap;
+      overflow: hidden;
+    }
+
+    .contact-info {
+      flex: 1;
+      background: #10857f;
+      color: white;
+      padding: 50px 40px;
+    }
+
+    .contact-info h2 {
+      font-size: 26px;
+      margin-bottom: 15px;
+    }
+
+    .contact-info p {
+      font-size: 15px;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+
+    .info-item {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-item i {
+      font-size: 22px;
+      background: rgba(255,255,255,0.2);
+      padding: 10px;
+      border-radius: 50%;
+    }
+
+    .contact-form {
+      flex: 1;
+      padding: 50px 40px;
+    }
+
+    .contact-form h2 {
+      color: #10857f;
+      margin-bottom: 25px;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    input, textarea {
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 6px rgba(0,123,255,0.2);
+    }
+
+    button {
+      background:  #10857f;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #003b8b, #006ae6);
+      transform: scale(1.02);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #666;
+      background: #f9fafc;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 768px) {
+      .contact-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  LifeSpring Hospital - Contact Us
+</header>
+
+<div class="contact-container">
+  <div class="contact-info">
+    <h2>Get in Touch</h2>
+    <p>We’re here to help you with appointments, reports, or general inquiries.</p>
+
+    <div class="info-item"><i class='bx bxs-phone-call'></i> <span>+91 93611 79044</span></div>
+    <div class="info-item"><i class='bx bxs-envelope'></i> <span>atgeethapriya2004@gmail.com</span></div>
+    <div class="info-item"><i class='bx bxs-map'></i> <span>123 Health Street, Chennai, India</span></div>
+    <div class="info-item"><i class='bx bxs-time-five'></i> <span>Mon - Sat: 9:00 AM - 8:00 PM</span></div>
+  </div>
+
+  <div class="contact-form">
+    <h2>Send Us a Message</h2>
+    <form method="post" action="{% url 'contact' %}">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  © 2025 LifeSpring Hospital | All Rights Reserved
+</footer>
+
+<!-- SweetAlert popup for success -->
+{% if messages %}
+  <script>
+    {% for message in messages %}
+      Swal.fire({
+        icon: 'success',
+        title: 'Message Sent!',
+        text: '{{ message }}',
+        confirmButtonColor: '#004aad'
+      });
+    {% endfor %}
+  </script>
+{% endif %}
+
+</body>
+</html>

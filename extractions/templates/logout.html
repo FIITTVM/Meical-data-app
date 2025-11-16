@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logged Out</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+    margin: 0;
+  }
+
+  .logout-box {
+    background: white;
+    color: #1e3a8a;
+    padding: 40px 60px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .logout-box h2 {
+    margin-bottom: 15px;
+    font-size: 24px;
+  }
+
+  .logout-box p {
+    color: #475569;
+    font-size: 15px;
+    margin-bottom: 25px;
+  }
+
+  .btn-login {
+    display: inline-block;
+    background: #2563eb;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 15px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-login:hover {
+    background: #1e3a8a;
+    transform: scale(1.05);
+  }
+</style>
+</head>
+<body>
+
+<div class="logout-box">
+  <h2>✅ You have successfully logged out</h2>
+  <p>Thank you for using our system. Click below to log in again.</p>
+  <a href="{% url 'login' %}" class="btn-login">Login Again</a>
+</div>
+
+</body>
+</html>

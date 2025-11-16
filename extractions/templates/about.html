@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Us - LifeSpring Hospital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* GLOBAL STYLES */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #eaf6ff, #cfe8ff, #e8f7ff);
+      color: #003366;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(90deg, #0077cc, #00aaff);
+      color: white;
+      text-align: center;
+      padding: 18px 0;
+      font-size: 1.8em;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      width: 85%;
+      max-width: 1100px;
+      margin: 50px auto;
+      background: rgba(255, 255, 255, 0.97);
+      padding: 40px 35px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #0077cc;
+      font-size: 1.4em;
+      margin-top: 25px;
+      border-left: 4px solid #0077cc;
+      padding-left: 10px;
+    }
+
+    p {
+      font-size: 1em;
+      color: #333;
+      margin-top: 10px;
+    }
+
+    /* TEAM SECTION */
+    .team {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .doctor {
+      background: linear-gradient(180deg, #f8fbff, #e8f4ff);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      width: 230px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .doctor:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    .doctor img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      border: 2.5px solid #00aaff;
+      background: white;
+    }
+
+    .doctor h3 {
+      color: #004c91;
+      font-size: 1.05em;
+      margin-bottom: 4px;
+    }
+
+    .doctor p {
+      color: #666;
+      font-size: 0.9em;
+      margin: 0;
+    }
+
+    /* BUTTON */
+    .back-btn {
+      display: inline-block;
+      background-color: #0077cc;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 10px;
+      margin-top: 40px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .back-btn:hover {
+      background-color: #005fa3;
+      transform: scale(1.04);
+    }
+
+    footer {
+      background: linear-gradient(90deg, #0077cc, #00aaff);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+      font-size: 0.9em;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 992px) {
+      header {
+        font-size: 1.6em;
+        padding: 16px;
+      }
+
+      .container {
+        width: 90%;
+        padding: 30px;
+      }
+
+      .team {
+        gap: 25px;
+      }
+
+      .doctor {
+        width: 45%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        font-size: 1.4em;
+        padding: 14px;
+      }
+
+      .container {
+        width: 92%;
+        padding: 25px;
+        margin: 30px auto;
+      }
+
+      h2 {
+        font-size: 1.2em;
+      }
+
+      p {
+        font-size: 0.95em;
+      }
+
+      .doctor {
+        width: 80%;
+        padding: 18px;
+      }
+
+      .doctor img {
+        width: 85px;
+        height: 85px;
+      }
+
+      .back-btn {
+        padding: 9px 18px;
+        font-size: 0.9em;
+      }
+
+      footer {
+        font-size: 0.85em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>About LifeSpring Hospital</header>
+
+  <div class="container">
+    <h2>Our Story</h2>
+    <p>
+      Established in 1995, <strong>LifeSpring Hospital</strong> has been a trusted name in healthcare, known for our patient-first philosophy. 
+      Our modern facilities and compassionate staff ensure every patient receives world-class care in a warm environment.
+    </p>
+
+    <h2>Our Mission</h2>
+    <p>
+      We strive to deliver quality, affordable healthcare with integrity and excellence. 
+      Every life matters, and every patient is treated with dignity, compassion, and expertise.
+    </p>
+
+    <h2>Meet Our Specialists</h2>
+    <div class="team">
+      <div class="doctor">
+        <img src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png" alt="Dr. John Smith">
+        <h3>John Smith</h3>
+        <p>Chief Surgeon</p>
+      </div>
+
+      <div class="doctor">
+        <img src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png"  alt="Dr. James Clark">
+        <h3>Dr. James Clark</h3>
+        <p>Cardiologist</p>
+      </div>
+
+      <div class="doctor">
+        <img src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png"  alt="Dr. Aisha Khan">
+        <h3>Dr. Abdul Khan</h3>
+        <p>Pediatric Specialist</p>
+      </div>
+    </div>
+
+    <center>
+      <a href="{% url 'home' %}" class="back-btn">🏠 Back to Home</a>
+    </center>
+  </div>
+
+  <footer>
+    © 2025 LifeSpring Hospital | Caring for Every Life 💙
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discharge Summary</title>
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<style>
+  body {
+    font-family: "Poppins", "Segoe UI", sans-serif;
+    background: skyblue;
+    margin: 0;
+    padding: 40px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px 35px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  h2 {
+    text-align: center;
+    color: #002b80;
+    font-weight: 600;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+    font-size: 28px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  th, td {
+    padding: 12px 10px;
+    text-align: center;
+    font-size: 14px;
+    vertical-align: middle;
+  }
+
+  th {
+    background: linear-gradient(135deg, #4a90e2, #007bff);
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+  }
+
+  td {
+    border-bottom: 1px solid #e2e8f0;
+    background-color: #fafbff;
+  }
+
+  tr:hover td { background: #f1f5ff; }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    height: 38px;
+    padding: 6px 8px;
+    border: 1px solid #cdd5e0;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+    background: #fff;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  select {
+    appearance: none;
+    background: #fff url('data:image/svg+xml;utf8,<svg fill="%232563eb" height="20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 8l5 5 5-5z"/></svg>') no-repeat right 8px center;
+    background-size: 12px;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 6px rgba(37, 99, 235, 0.3);
+  }
+
+  textarea { resize: none; height: 38px; }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+  }
+  .actions button {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+  }
+  .edit-btn { background: #2563eb; }
+  .delete-btn { background: #dc2626; }
+  .edit-btn:hover { background: #1d4ed8; }
+  .delete-btn:hover { background: #991b1b; }
+
+  .add-row-btn,
+  .submit-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    margin-top: 30px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+    transition: all 0.3s ease;
+  }
+  .add-row-btn:hover,
+  .submit-btn:hover {
+    background: #1e3a8a;
+    transform: translateY(-1px);
+  }
+
+  .button-container { text-align: center; margin-top: 25px; }
+
+  .search-box {
+    width: 100%;
+    max-width: 260px;
+    margin-left: auto;
+    margin-bottom: 15px;
+    position: relative;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 8px 32px 8px 10px;
+    border: 1px solid #cdd5e0;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .search-box i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #2563eb;
+  }
+
+  /* 🔥 Mobile View */
+  @media (max-width: 850px) {
+    h2 {
+      font-size: 32px;
+      margin: 20px 0;
+      display: block;
+      text-align: center;
+    }
+    table { border: none; }
+    thead { display: none; }
+    table, tbody, tr, td { display: block; width: 100%; }
+    tr {
+      margin-bottom: 18px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    }
+    td {
+      text-align: left;
+      padding: 8px 5px;
+      border: none;
+      background: none;
+    }
+    td::before {
+      content: attr(data-title);
+      font-weight: 600;
+      text-transform: capitalize;
+      display: block;
+      margin-bottom: 4px;
+      color: #003399;
+    }
+    td input, td select, td textarea { width: 100% !important; }
+    .actions { justify-content: left; }
+  }
+
+  @media (max-width: 480px) {
+    h2 { font-size: 36px; line-height: 1.4; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Patient Discharge Summary</h2>
+
+  <form id="dischargeForm">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search...">
+      <i class='bx bx-search'></i>
+    </div>
+
+    <table id="summaryTable">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Patient Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Admission Date</th>
+          <th>Discharge Date</th>
+          <th>Diagnosis</th>
+          <th>Treatment</th>
+          <th>Doctor</th>
+          <th>Remarks</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <tr>
+          <td data-title="S.No">1</td>
+          <td data-title="Patient Name"><input type="text" placeholder="Patient Name"></td>
+          <td data-title="Age"><input type="number" min="0" placeholder="Age"></td>
+          <td data-title="Gender">
+            <select>
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </td>
+          <td data-title="Admission Date"><input type="date"></td>
+          <td data-title="Discharge Date"><input type="date"></td>
+          <td data-title="Diagnosis"><input type="text" placeholder="Diagnosis"></td>
+          <td data-title="Treatment"><textarea placeholder="Treatment"></textarea></td>
+          <td data-title="Doctor"><input type="text" placeholder="Doctor"></td>
+          <td data-title="Remarks"><textarea placeholder="Remarks"></textarea></td>
+          <td class="actions" data-title="Actions">
+            <button type="button" class="edit-btn" onclick="editRow(this)"><i class='bx bx-edit'></i></button>
+            <button type="button" class="delete-btn" onclick="deleteRow(this)"><i class='bx bx-trash'></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+       <div class="button-container">
+      <button type="button" class="add-row-btn" onclick="addRow()">+ Add Row</button>
+      <button type="submit" class="submit-btn">Submit Summary</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  function addRow() {
+    const table = document.getElementById('summaryTable').getElementsByTagName('tbody')[0];
+    const rowCount = table.rows.length;
+    const sno = rowCount + 1;
+    const row = table.insertRow();
+    row.innerHTML = `
+      <td data-title="S.No">${sno}</td>
+      <td data-title="Patient Name"><input type="text" placeholder="Patient Name"></td>
+      <td data-title="Age"><input type="number" min="0" placeholder="Age"></td>
+      <td data-title="Gender">
+        <select>
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </td>
+      <td data-title="Admission Date"><input type="date"></td>
+      <td data-title="Discharge Date"><input type="date"></td>
+      <td data-title="Diagnosis"><input type="text" placeholder="Diagnosis"></td>
+      <td data-title="Treatment"><textarea placeholder="Treatment"></textarea></td>
+      <td data-title="Doctor"><input type="text" placeholder="Doctor"></td>
+      <td data-title="Remarks"><textarea placeholder="Remarks"></textarea></td>
+      <td class="actions" data-title="Actions">
+        <button type="button" class="edit-btn" onclick="editRow(this)"><i class='bx bx-edit'></i></button>
+        <button type="button" class="delete-btn" onclick="deleteRow(this)"><i class='bx bx-trash'></i></button>
+      </td>
+    `;
+  }
+
+  function deleteRow(btn) {
+    const row = btn.closest("tr");
+    row.remove();
+    updateSerials();
+  }
+
+  function updateSerials() {
+    document.querySelectorAll("#tableBody tr").forEach((row, i) => {
+      row.cells[0].innerText = i + 1;
+    });
+  }
+
+  // Save table to localStorage
+  function saveTable() {
+    const rows = [];
+    document.querySelectorAll("#tableBody tr").forEach(tr => {
+      const cells = [...tr.querySelectorAll("td")];
+      rows.push({
+        sno: cells[0].innerText,
+        patient: cells[1].querySelector("input").value,
+        age: cells[2].querySelector("input").value,
+        gender: cells[3].querySelector("select").value,
+        admit: cells[4].querySelector("input").value,
+        discharge: cells[5].querySelector("input").value,
+        diagnosis: cells[6].querySelector("input").value,
+        treatment: cells[7].querySelector("textarea").value,
+        doctor: cells[8].querySelector("input").value,
+        remarks: cells[9].querySelector("textarea").value
+      });
+    });
+    localStorage.setItem("dischargeTable", JSON.stringify(rows));
+  }
+
+  // Load table from localStorage
+  function loadTable() {
+    const data = JSON.parse(localStorage.getItem("dischargeTable"));
+    if (!data) return;
+    const table = document.getElementById("tableBody");
+    table.innerHTML = "";
+    data.forEach((r, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td data-title="S.No">${index + 1}</td>
+        <td data-title="Patient Name"><input type="text" value="${r.patient}"></td>
+        <td data-title="Age"><input type="number" value="${r.age}"></td>
+        <td data-title="Gender">
+          <select>
+            <option value="">Select</option>
+            <option ${r.gender === "Male" ? "selected" : ""}>Male</option>
+            <option ${r.gender === "Female" ? "selected" : ""}>Female</option>
+            <option ${r.gender === "Other" ? "selected" : ""}>Other</option>
+          </select>
+        </td>
+        <td data-title="Admission Date"><input type="date" value="${r.admit}"></td>
+        <td data-title="Discharge Date"><input type="date" value="${r.discharge}"></td>
+        <td data-title="Diagnosis"><input type="text" value="${r.diagnosis}"></td>
+        <td data-title="Treatment"><textarea>${r.treatment}</textarea></td>
+        <td data-title="Doctor"><input type="text" value="${r.doctor}"></td>
+        <td data-title="Remarks"><textarea>${r.remarks}</textarea></td>
+        <td class="actions" data-title="Actions">
+          <button type="button" class="edit-btn" onclick="editRow(this)"><i class='bx bx-edit'></i></button>
+          <button type="button" class="delete-btn" onclick="deleteRow(this)"><i class='bx bx-trash'></i></button>
+        </td>`;
+      table.appendChild(row);
+    });
+  }
+
+  // Disable inputs after submit
+  function disableTable() {
+    document.querySelectorAll("#tableBody input, #tableBody select, #tableBody textarea")
+      .forEach(el => el.disabled = true);
+  }
+
+  // Enable row on edit
+  function editRow(btn) {
+    const row = btn.closest("tr");
+    row.querySelectorAll("input, select, textarea").forEach(el => el.disabled = false);
+    alert("✏️ Row unlocked for editing!");
+  }
+
+  // Form submit
+  document.getElementById('dischargeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    saveTable();
+    disableTable();
+    alert("✅ Summary Submitted. Table Locked!");
+  });
+
+  // Load table on page open
+  window.onload = loadTable;
+
+  // Live search
+  document.getElementById("searchInput").addEventListener("input", function () {
+    const filter = this.value.toLowerCase().trim();
+    const rows = document.querySelectorAll("#tableBody tr");
+    rows.forEach(row => {
+      const nameCell = row.cells[1].querySelector("input").value.toLowerCase();
+      row.style.display = nameCell.includes(filter) || filter === "" ? "" : "none";
+    });
+  });
+</script>
+
+</body>
+</html>

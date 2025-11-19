@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 urlpatterns = [
     path('', views.splash_view, name='splash'),
      path('login/', views.login_view, name='login'),
-     path('', views.home_view, name='home'),  # Home page
+     path('', views.index_view, name='index'),  # Home page
      path('about/', views.about, name='about'),
     path('register/', views.register_view, name='register'),
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),

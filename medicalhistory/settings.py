@@ -15,6 +15,14 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'extractions' / 'static']
 
+ALLOWED_HOSTS = ['*']
+
+ALLOWED_HOSTS = [
+    'meical-data-app.onrender.com',
+    'meical-data-app-1.onrender.com',
+    'localhost',
+    '127.0.0.1'
+]
 
 
 # Application definition
@@ -85,9 +93,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "extractions" / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-ALLOWED_HOSTS = ['meical-data-app.onrender.com']
-DEBUG = False  # Must be False in production
 
 
 # Default primary key field type
